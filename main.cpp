@@ -31,7 +31,7 @@ public:
 
 int main() {
     MyLess<Employee,string> TargetMember(&Employee::social_security_number); // swap member var to nickname for testing.
-    map<Employee,Salary,MyLess<Employee,string>> Employees(TargetMember);
+    map<Employee,Salary,MyLess<Employee,string>> Employees(TargetMember); // Change the map params to pointers for less overhead.
 
     Employee Kitten("Kitty", "111-11-11");
     Salary KittenSalary(15000,15);
