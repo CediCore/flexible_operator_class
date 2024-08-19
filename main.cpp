@@ -30,7 +30,7 @@ public:
 };
 
 int main() {
-    MyLess<Employee,string> TargetMember(&Employee::social_security_number);
+    MyLess<Employee,string> TargetMember(&Employee::social_security_number); // swap member var to nickname for testing.
     map<Employee,Salary,MyLess<Employee,string>> Employees(TargetMember);
 
     Employee Kitten("Kitty", "111-11-11");
