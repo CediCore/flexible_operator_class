@@ -1,7 +1,10 @@
 #include <iostream>
 #include <map>
 
-using namespace std;
+using std::cin;
+using std::cout;
+using std::string;
+using std::map;
 
 class Employee {
 public:
@@ -24,26 +27,26 @@ class MyLess{
 public:
     U T::*member;
     MyLess(U T::*m) : member(m) {}
-    bool operator () (const T& first, const T& second) const {
-        return first.*member < second.*member;
+    bool operator () (const T* first, const T* second) const {
+        return first->*member < second->*member;
     }
 };
 
 int main() {
     MyLess<Employee,string> TargetMember(&Employee::social_security_number); // swap member var to nickname for testing.
-    map<Employee,Salary,MyLess<Employee,string>> Employees(TargetMember); // Change the map params to pointers for less overhead.
+    map<Employee*,Salary*,MyLess<Employee,string>> Employees(TargetMember); // Can't use comparing parameter as reference, cuz std::map doesn't trust addresses that can vanish.
 
     Employee Kitten("Kitty", "111-11-11");
     Salary KittenSalary(15000,15);
-    Employees[Kitten] = KittenSalary;
+    Employees[&Kitten] = &KittenSalary;
 
     Employee Dog("Doggy", "111-11-10");
     Salary DogSalary(12000, 12);
-    Employees[Dog] = DogSalary;
+    Employees[&Dog] = &DogSalary;
 
     Employee SearchEmp("Kitty", "111-11-10");
 
-    cout << Employees[SearchEmp].annual_ripoff << endl;
+    cout << (*Employees[&SearchEmp]).annual_ripoff << '\n';
 
     cin.get();
     return 0;
